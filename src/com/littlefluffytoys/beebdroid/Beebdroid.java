@@ -24,10 +24,6 @@ import javax.microedition.khronos.egl.EGLDisplay;
 import javax.microedition.khronos.egl.EGLSurface;
 import javax.microedition.khronos.opengles.GL10;
 
-import com.google.ads.Ad;
-import com.google.ads.AdListener;
-import com.google.ads.AdView;
-import com.google.ads.AdRequest.ErrorCode;
 import com.littlefluffytoys.beebdroid.ControllerInfo.TriggerAction;
 
 import common.Utils;
@@ -65,7 +61,7 @@ import android.graphics.Bitmap;
 import android.graphics.Rect;
 
 
-public class Beebdroid extends Activity implements AdListener
+public class Beebdroid extends Activity
 {
 	private static final String TAG="Beebdroid";
 	public static boolean use25fps = false;
@@ -175,7 +171,6 @@ public class Beebdroid extends Activity implements AdListener
     			diskInfo = null;
     			SavedGameInfo.current = null;
     			showKeyboard(true);
-    			Analytics.trackPageView(getApplicationContext(), "/reset");
     			return true;
     		}
     	}
@@ -245,30 +240,6 @@ public class Beebdroid extends Activity implements AdListener
 	private static final String PREFKEY_AD_TIMESTAMP = "AdTimestamp";
     static final long AD_POSTPONE_TIME = 3 * 60 * 60 * 1000; // 3 hours
 
-    void setAdVisibility() {
-        final AdView adView = (AdView)findViewById(R.id.adView);
-		if (adView != null) {
-			final long adTimestamp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getLong(PREFKEY_AD_TIMESTAMP, 0);
-			if (adTimestamp == 0) {
-				// first time run - postpone ads
-				postponeAds();
-			}
-			final boolean showAds = (adTimestamp != 0 && (adTimestamp > System.currentTimeMillis() || (System.currentTimeMillis() - adTimestamp > AD_POSTPONE_TIME)));
-			
-	    	if (showAds) {
-	    		adView.setVisibility(View.VISIBLE);
-	    		adView.setAdListener(this);
-	    		findViewById(R.id.btnInput).setVisibility(View.GONE);
-	    		findViewById(R.id.btnSave).setVisibility(View.GONE);
-	    	}
-	    	else {
-	    		adView.setVisibility(View.INVISIBLE);
-	    		findViewById(R.id.btnInput).setVisibility(View.VISIBLE);
-	    		findViewById(R.id.btnSave).setVisibility(View.VISIBLE);
-	    	}
-		}
-    }
-    
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -277,11 +248,8 @@ public class Beebdroid extends Activity implements AdListener
         use25fps = Build.DEVICE.equals("bravo");
         
         //Log.d("Build", "Its a " + Build.DEVICE);
-        Analytics.trackPageView(getApplicationContext(), "/start");
         
         setContentView(R.layout.activity_beebdroid);
-
-		setAdVisibility();
 
         DPI_MULT = getResources().getDisplayMetrics().density;
         DP_SCREEN_WIDTH = getResources().getDisplayMetrics().widthPixels;
@@ -450,7 +418,6 @@ public class Beebdroid extends Activity implements AdListener
     	bbcExit();
     	audio.stop();
     	playing = false;
-        Analytics.dispatch();
 //    	System.exit(0); // until native lib is stable
     }
     ByteBuffer diskImage;
@@ -507,8 +474,6 @@ public class Beebdroid extends Activity implements AdListener
     private void loadDisk(DiskInfo diskInfo, boolean bootIt) {
 		this.diskInfo = diskInfo;
 
-		Analytics.trackEvent(getApplicationContext(), "Load disk", "" + diskInfo.key, "" + diskInfo.title, 0);
-		
 		diskImage = loadFile(new File(getFilesDir(), diskInfo.key));
 	
 		
@@ -914,33 +879,8 @@ public class Beebdroid extends Activity implements AdListener
 	@Override  
 	protected void onDestroy() {
 		super.onDestroy();
-        Analytics.trackPageView(getApplicationContext(), "/stop");
-        Analytics.dispatchAndStopSession();
 	}
-	@Override
-	public void onDismissScreen(Ad arg0) {
-	}
-	@Override
-	public void onFailedToReceiveAd(Ad arg0, ErrorCode arg1) {
-	}
-	@Override
-	public void onLeaveApplication(Ad arg0) {
-		postponeAds();
-	}
-	@Override
-	public void onPresentScreen(Ad arg0) {
-		postponeAds();
-	}
-	@Override
-	public void onReceiveAd(Ad arg0) {
-	}
-	private void postponeAds() {
-		Log.d(TAG, "Postponing ads for 3 hours");
-		PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putLong(PREFKEY_AD_TIMESTAMP, System.currentTimeMillis()).commit();
-		setAdVisibility();
-	}
-	
-	
+
 	String hintID;
 	int hintResourceID;
 	final Runnable showHint = new Runnable() {
