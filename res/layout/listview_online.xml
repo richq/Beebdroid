@@ -16,12 +16,11 @@
 <TextView 
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
-	android:layout_alignParentBottom="true"
 	android:padding="4dp"
 	android:gravity="center"
 	android:background="#ffffffc0"
 	android:textColor="#ff000000"
-	android:text="These disk files are very kindly provided by\nhttp://www.stairwaytohell.com/"
+	android:text="@string/disk_files_provided_by_stairwaytohell"
 	android:autoLink="web"
     />
 </LinearLayout>

@@ -53,6 +53,7 @@
 	android:src="@drawable/save"
 	android:onClick="onSaveClicked"
 	android:layout_alignParentRight="true"
+	android:contentDescription="@string/save_button"
 />
 
 
@@ -61,6 +62,7 @@
 	android:layout_width="48dp"
 	android:layout_height="48dp"
 	android:background="@drawable/tab"
+	android:contentDescription="@string/input_button"
 />
 <TextView 
 	android:id="@+id/fps"

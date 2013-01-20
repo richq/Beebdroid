@@ -19,7 +19,7 @@
 	android:gravity="center"
 	android:textColor="#ff808080"
 	android:textStyle="italic"
-	android:text="You have no disks installed yet. Browse the 'Online' list to find and and install them."
+	android:text="@string/no_disks_installed"
 	android:background="@android:color/white"
     />
 

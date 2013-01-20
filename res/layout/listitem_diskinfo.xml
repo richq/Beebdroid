@@ -16,6 +16,7 @@
 	android:maxWidth="50dp"
 	android:adjustViewBounds="true"
 	android:layout_marginRight="8dp"
+	android:contentDescription="@string/disk_image"
 	/>
 
 <TextView
@@ -41,7 +42,7 @@
 	android:layout_width="wrap_content"
 	android:layout_height="wrap_content"
 	android:layout_alignParentRight="true"
-    android:text="INSTALLED"
+    android:text="@string/installed"
     android:textColor="#ff000000"
     android:background="#ffc0e0e0"
     android:padding="4dp"

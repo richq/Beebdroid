@@ -43,7 +43,6 @@
 	android:layout_width="fill_parent"
 	android:layout_height="52dp"
 	android:orientation="horizontal"
-	android:layout_alignParentBottom="true"	
 	>	
 <ImageView
 	android:id="@+id/btnInput"
@@ -51,7 +50,7 @@
 	android:layout_height="45dp"
 	android:layout_marginTop="2dp"
 	android:background="@drawable/tab"
-/>
+	android:contentDescription="@string/input_button"/>
 <TextView 
 	android:id="@+id/fps"
 	android:layout_width="0dp"
@@ -70,7 +69,7 @@
 	android:background="@drawable/tab"
 	android:src="@drawable/save"
 	android:onClick="onSaveClicked"
-/>
+	android:contentDescription="@string/save_button"/>
 </LinearLayout>
 
 

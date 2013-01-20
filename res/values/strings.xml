@@ -20,4 +20,16 @@
     <string name="hint_load_disks">HINT: press MENU to load disks</string>
     <string name="hint_switch_keyboards">HINT: press MENU to switch keyboards</string>
     <string name="hint_space_to_start">HINT: if a game says \'Press SPACE to start\', just touch the screen!</string>
+    <string name="logo">Logo</string>
+    <string name="save_button">Save button</string>
+    <string name="input_button">Input button</string>
+    <string name="multipurpose_image_view">Multipurpose image view</string>
+    <string name="disk_image">Disk image</string>
+    <string name="create_new">Create New</string>
+    <string name="installed">INSTALLED</string>
+    <string name="overwrite">Overwrite</string>
+    <string name="restore">Restore</string>
+    <string name="disk_files_provided_by_stairwaytohell">These disk files are very kindly provided by\nhttp://www.stairwaytohell.com/</string>
+    <string name="title">Title</string>
+    <string name="no_disks_installed">You have no disks installed yet. Browse the \'Online\' list to find and and install them.</string>
 </resources>

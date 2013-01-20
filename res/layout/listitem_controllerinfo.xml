@@ -16,6 +16,7 @@
 	android:maxWidth="50dp"
 	android:adjustViewBounds="true"
 	android:layout_marginRight="8dp"
+	android:contentDescription="@string/input_button"
 	/>
 
 <TextView
