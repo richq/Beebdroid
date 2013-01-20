@@ -10,9 +10,9 @@ import android.view.MotionEvent;
 public class ControllerView extends TouchpadsView implements DPad.Listener {
 
 	public ControllerView(Context context, AttributeSet attrs) {
-		super(context, attrs);		
-     }
-	
+		super(context, attrs);
+	}
+
 	ControllerInfo controllerInfo;
 	DPad dpad;
 	int dpadSize;
@@ -20,7 +20,7 @@ public class ControllerView extends TouchpadsView implements DPad.Listener {
 	int scancodeRight;
 	int scancodeUp;
 	int scancodeDown;
-	
+
 	public void setController(ControllerInfo info) {
 		controllerInfo = info;
 
@@ -28,7 +28,7 @@ public class ControllerView extends TouchpadsView implements DPad.Listener {
 		if (beebdroid.isXperiaPlay) {
 			return;
 		}
-		
+
 		dpadSize = (int)Beebdroid.dp(160);
 		dpad = null;
 		if (info.useDPad) {
@@ -38,7 +38,7 @@ public class ControllerView extends TouchpadsView implements DPad.Listener {
 		}
 		recreateKeys();
 	}
-	
+
 	private void recreateKeys() {
 		allkeys.clear();
 		if (controllerInfo == null) {
@@ -51,42 +51,42 @@ public class ControllerView extends TouchpadsView implements DPad.Listener {
 		}
 		float padwidth = Beebdroid.DP_SCREEN_WIDTH / div;
 		float padheight = padwidth;
-		
+
 		int width = getWidth();
 		int height = getHeight();
 		for (ControllerInfo.KeyInfo keyinfo : controllerInfo.keyinfos) {
 			Key key = new Key();
 			key.scancode = keyinfo.scancode;
 			key.label = keyinfo.label;
-			
-    		float l = (keyinfo.xc<0) ? (width + keyinfo.xc*padwidth) : (keyinfo.xc*padwidth);
-    		float t = (keyinfo.yc<0) ? (height + keyinfo.yc*padheight) : (keyinfo.yc*padheight);
-    		key.bounds = new RectF(l, t, (l+padwidth*keyinfo.width), (t+padwidth*keyinfo.height));
-    		
-    		if (dpad != null) {
-	    		if (keyinfo.label.equals("Left")) {scancodeLeft = keyinfo.scancode; continue;}
-	      		if (keyinfo.label.equals("Right")) {scancodeRight = keyinfo.scancode; continue;}
-	      		if (keyinfo.label.equals("Up")) {scancodeUp = keyinfo.scancode; continue;}
-	      		if (keyinfo.label.equals("Down")) {scancodeDown = keyinfo.scancode; continue;}
-    		}
-    		
-    		allkeys.add(key);
+
+			float l = (keyinfo.xc<0) ? (width + keyinfo.xc*padwidth) : (keyinfo.xc*padwidth);
+			float t = (keyinfo.yc<0) ? (height + keyinfo.yc*padheight) : (keyinfo.yc*padheight);
+			key.bounds = new RectF(l, t, (l+padwidth*keyinfo.width), (t+padwidth*keyinfo.height));
+
+			if (dpad != null) {
+				if (keyinfo.label.equals("Left")) {scancodeLeft = keyinfo.scancode; continue;}
+				if (keyinfo.label.equals("Right")) {scancodeRight = keyinfo.scancode; continue;}
+				if (keyinfo.label.equals("Up")) {scancodeUp = keyinfo.scancode; continue;}
+				if (keyinfo.label.equals("Down")) {scancodeDown = keyinfo.scancode; continue;}
+			}
+
+			allkeys.add(key);
 
 		}
 		invalidate();
 	}
-	
+
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
-		super.onLayout(changed, l, t, r, b); 
+		super.onLayout(changed, l, t, r, b);
 		if (dpad != null) {
 			dpad.onLayout(l, b-dpadSize, l+dpadSize, b);
 			//dpad.onLayout(r-dpadSize, b-dpadSize, r, b);
 		}
 		recreateKeys();
 	}
-	
-	
+
+
 	@Override
 	public void draw(Canvas canvas) {
 		if (beebdroid.isXperiaPlay) {
@@ -97,10 +97,10 @@ public class ControllerView extends TouchpadsView implements DPad.Listener {
 			dpad.draw(canvas);
 		}
 	}
-	
+
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		
+
 		// Dpad
 		if (dpad != null) {
 			if (dpad.onTouchEvent(event)) {
@@ -108,12 +108,12 @@ public class ControllerView extends TouchpadsView implements DPad.Listener {
 				return true;
 			}
 		}
-		
+
 		return super.onTouchEvent(event);
 	}
-	
-	
-	
+
+
+
 	//
 	// DPadView.Listener
 	//
@@ -136,5 +136,5 @@ public class ControllerView extends TouchpadsView implements DPad.Listener {
 	public void onDown(boolean pressed) {
 		beebdroid.bbcKeyEvent(scancodeDown, 0, pressed?1:0);
 		invalidate();
-	}	
+	}
 }

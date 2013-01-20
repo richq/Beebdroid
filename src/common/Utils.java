@@ -30,7 +30,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class Utils {
-	
+
 	public static void setVisibility(Object object, int id, int visibility) {
 		View view = getView(object, id);
 		if (view != null) {
@@ -40,7 +40,7 @@ public class Utils {
 	public static void setVisible(Object object, int id, boolean visible) {
 		setVisibility(object, id, visible?View.VISIBLE:View.GONE);
 	}
-	
+
 	public static String getText(Object object, int id) {
 		TextView textView = (TextView)getView(object, id);
 		if (textView != null) {
@@ -69,17 +69,17 @@ public class Utils {
 			textView.setTypeface(bold ? Typeface.DEFAULT_BOLD : Typeface.DEFAULT);
 		}
 	}
-	
+
 	public static View getView(Object object, int id) {
 		View view = null;
 		if (object instanceof Dialog) {
-			view = ((Dialog)object).findViewById(id); 
+			view = ((Dialog)object).findViewById(id);
 		}
 		else if (object instanceof Activity) {
-			view = ((Activity)object).findViewById(id); 
+			view = ((Activity)object).findViewById(id);
 		}
 		else if (object instanceof ViewGroup) {
-			view = ((ViewGroup)object).findViewById(id); 
+			view = ((ViewGroup)object).findViewById(id);
 		}
 		return view;
 	}
@@ -93,50 +93,50 @@ public class Utils {
 		byte[] sBuffer = new byte[4096];
 		InputStream inputStream = entity.getContent();
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream(4096);
-	    int readBytes = 0;
-	    int totalBytesRead = 0;
-	    while ((readBytes = inputStream.read(sBuffer)) != -1) {
-	    	outputStream.write(sBuffer, 0, readBytes);
-	    	totalBytesRead += readBytes;
-	    }
-	    entity.consumeContent();
-	    return new String(outputStream.toByteArray());
+		int readBytes = 0;
+		int totalBytesRead = 0;
+		while ((readBytes = inputStream.read(sBuffer)) != -1) {
+			outputStream.write(sBuffer, 0, readBytes);
+			totalBytesRead += readBytes;
+		}
+		entity.consumeContent();
+		return new String(outputStream.toByteArray());
 	}
 
 	public static String readTextStreamAvailable(InputStream inputStream) throws IOException {
 		byte[] buffer = new byte[4096];
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream(4096);
-		
+
 		// Do the first byte via a blocking read
 		outputStream.write(inputStream.read());
-		
+
 		// Slurp the rest
 		int available = inputStream.available();
-	    while (available > 0) {
-	    	int cbToRead = Math.min(buffer.length, available);
-	    	int cbRead = inputStream.read(buffer, 0, cbToRead);
-	    	if (cbRead <= 0) {
-	    		throw new IOException("Unexpected end of stream");
-	    	}
-	    	outputStream.write(buffer, 0, cbRead);
-	    	available -= cbRead;
-	    }
-	    return new String(outputStream.toByteArray());
+		while (available > 0) {
+			int cbToRead = Math.min(buffer.length, available);
+			int cbRead = inputStream.read(buffer, 0, cbToRead);
+			if (cbRead <= 0) {
+				throw new IOException("Unexpected end of stream");
+			}
+			outputStream.write(buffer, 0, cbRead);
+			available -= cbRead;
+		}
+		return new String(outputStream.toByteArray());
 	}
-	
+
 	//
 	// readTextStream
 	//
 	public static String readTextStream(InputStream inputStream) throws IOException {
 		byte[] buffer = new byte[4096];
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream(4096);
-	    int readBytes = 0;
-	    int totalBytesRead = 0;
-	    while ((readBytes = inputStream.read(buffer)) != -1) {
-	    	outputStream.write(buffer, 0, readBytes);
-	    	totalBytesRead += readBytes;
-	    }
-	    return new String(outputStream.toByteArray());
+		int readBytes = 0;
+		int totalBytesRead = 0;
+		while ((readBytes = inputStream.read(buffer)) != -1) {
+			outputStream.write(buffer, 0, readBytes);
+			totalBytesRead += readBytes;
+		}
+		return new String(outputStream.toByteArray());
 	}
 
 
@@ -154,7 +154,7 @@ public class Utils {
 		}
 		return ai;
 	}
-	
+
 	//
 	// getFriendlyDuration
 	//
@@ -175,26 +175,26 @@ public class Utils {
 		retval += seconds + "s";
 		return retval;
 	}
-	
+
 	public static class HashMapArrayList<K, V> extends HashMap<K,V> {
 		private static final long serialVersionUID = 1L;
 		private ArrayList<V> array = new ArrayList<V>();
-		
+
 		public ArrayList<V> getList() {
 			return array;
 		}
-		
+
 		public V[] toArray(V[] a) {
 			return array.toArray(a);
 		}
-		@Override 
+		@Override
 		public V put(K k, V v) {
 			array.add(v);
 			v = super.put(k, v);
 			Assert.assertTrue(size()==array.size()); // Broken? Change this function to not allow duplicate entries in this.array
 			return v;
 		}
-		
+
 		public V getByIndex(int index) {
 			if (index>=array.size()) {
 				return null;
@@ -219,26 +219,26 @@ public class Utils {
 		}
 	}
 
-	
-    public static void closeQuietly(InputStream input) {
-        try {
-            if (input != null) {
-                input.close();
-            }
-        } catch (IOException ioe) {
-            // ignore
-        }
-    }
-    public static void closeQuietly(OutputStream output) {
-        try {
-            if (output != null) {
-            	output.close();
-            }
-        } catch (IOException ioe) {
-            // ignore
-        }
-    }
-		
+
+	public static void closeQuietly(InputStream input) {
+		try {
+			if (input != null) {
+				input.close();
+			}
+		} catch (IOException ioe) {
+			// ignore
+		}
+	}
+	public static void closeQuietly(OutputStream output) {
+		try {
+			if (output != null) {
+				output.close();
+			}
+		} catch (IOException ioe) {
+			// ignore
+		}
+	}
+
 
 	public static String safeGetJsonString(JSONObject obj, String fieldName) throws JSONException {
 		if (obj.has(fieldName)) {
@@ -246,10 +246,10 @@ public class Utils {
 		}
 		return "";
 	}
-	
+
 	public static String age(long timestamp) {
 		long age = System.currentTimeMillis() - timestamp;
-		
+
 		if (age<5000){
 			return "just now";
 		}
@@ -273,33 +273,33 @@ public class Utils {
 		if (days<7) {
 			return (days==1) ? "Yesterday" : (Long.toString(days) + " days ago");
 		}
-		
+
 
 		long weeks = days / 7;
 		if (weeks<4){
 			return Long.toString(weeks) + ((weeks==1) ? " week ago" : " weeks ago");
 		}
-		
+
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yy");
 		return formatter.format(timestamp);
 	}
 
-	
+
 	public static void unzip(File zipfile, File targetfile, boolean deleteZipAfterwards) throws IOException {
 		ZipInputStream input = new ZipInputStream(new FileInputStream(zipfile));
-		ZipEntry entry = input.getNextEntry(); 
+		ZipEntry entry = input.getNextEntry();
 		OutputStream output = new BufferedOutputStream(new FileOutputStream(targetfile));
-        int count;
-        byte buffer[] = new byte[4096];
-        while ((count = input.read(buffer, 0, 4096)) != -1) {
-        	output.write(buffer, 0, count);
-        }
-        output.flush();
-        output.close();
-        input.close();
-        if (deleteZipAfterwards) {
-        	zipfile.delete();
-        }
-		
+		int count;
+		byte buffer[] = new byte[4096];
+		while ((count = input.read(buffer, 0, 4096)) != -1) {
+			output.write(buffer, 0, count);
+		}
+		output.flush();
+		output.close();
+		input.close();
+		if (deleteZipAfterwards) {
+			zipfile.delete();
+		}
+
 	}
 }

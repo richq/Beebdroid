@@ -2,24 +2,24 @@ package com.littlefluffytoys.beebdroid;
 
 public class BeebKeys {
 	/*
-	 * BBC Model B Keyboard : taken from 	http://www.flickr.com/photos/39013214@N03/5660684665/sizes/o/in/photostream/
+	 * BBC Model B Keyboard : taken from	http://www.flickr.com/photos/39013214@N03/5660684665/sizes/o/in/photostream/
 
-	         0    1    2    3    4    5    6   7    8    9
-	         ----------------------------------------------
-	0x70     ESC  F1   F2   F3   F5   F6   F8   F9   \|  right
-	0x10     Q    3    4    5    F4   8    F7   -=   ^~  left
-	0x20     F0   W    E    T    7    I    9    0    £_  down
-	0x30     1    2    D    R    6    U    O    P    [(  up
-	0x40     CAP  A    X    F    Y    J    K    @    :*  RET
-	0x50     SLC  S    C    G    H    N    L    ;+   ])  DEL
-	0x60     TAB  Z    SPC  V    B    M    ,<   .>   /?  CPY
+	 0    1    2    3    4    5    6   7    8    9
+	 ----------------------------------------------
+	 0x70     ESC  F1   F2   F3   F5   F6   F8   F9   \|  right
+	 0x10     Q    3    4    5    F4   8    F7   -=   ^~  left
+	 0x20     F0   W    E    T    7    I    9    0    £_  down
+	 0x30     1    2    D    R    6    U    O    P    [(  up
+	 0x40     CAP  A    X    F    Y    J    K    @    :*  RET
+	 0x50     SLC  S    C    G    H    N    L    ;+   ])  DEL
+	 0x60     TAB  Z    SPC  V    B    M    ,<   .>   /?  CPY
 	 */
 
 	public static final int BBCKEY_BREAK = 0xaa;
-	//  0x00    
+	//  0x00
 	public static final int BBCKEY_SHIFT = 0x100;
 	public static final int BBCKEY_CTRL = 0x01;
-	// 	0x10     Q    3    4    5    F4   8    F7   -=   ^~
+	//	0x10     Q    3    4    5    F4   8    F7   -=   ^~
 	public static final int BBCKEY_Q = 0x10;
 	public static final int BBCKEY_3 = 0x11;
 	public static final int BBCKEY_4 = 0x12;
@@ -68,7 +68,7 @@ public class BeebKeys {
 	public static final int BBCKEY_COLON = 0x48;
 	public static final int BBCKEY_STAR = 0x148;
 	public static final int BBCKEY_ENTER = 0x49;
-	// 	0x50     SLC  S    C    G    H    N    L    ;+   ])
+	//	0x50     SLC  S    C    G    H    N    L    ;+   ])
 	public static final int BBCKEY_SHIFTLOCK = 0x50;
 	public static final int BBCKEY_S = 0x51;
 	public static final int BBCKEY_C = 0x52;
@@ -95,7 +95,7 @@ public class BeebKeys {
 	public static final int BBCKEY_SLASH = 0x68;
 	public static final int BBCKEY_QUESTIONMARK = 0x168;
 	public static final int BBCKEY_COPY = 0x69;
-	// 0x70     ESC  F1   F2   F3   F5   F6   F8   F9   \| 
+	// 0x70     ESC  F1   F2   F3   F5   F6   F8   F9   \|
 	public static final int BBCKEY_ESCAPE = 0x70;
 	public static final int BBCKEY_F1 = 0x71;
 	public static final int BBCKEY_F2 = 0x72;
@@ -106,5 +106,5 @@ public class BeebKeys {
 	public static final int BBCKEY_F9 = 0x77;
 	public static final int BBCKEY_BACKSLASH = 0x78;
 	public static final int BBCKEY_ARROW_RIGHT = 0x79;
-	
+
 }

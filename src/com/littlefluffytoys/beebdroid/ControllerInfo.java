@@ -13,15 +13,15 @@ public class ControllerInfo {
 	public SparseArray<KeyInfo> keyinfosMappedByAndroidKeycode = new SparseArray<KeyInfo>();
 	public boolean useDPad;
 	public int androidKeycode;
-	
+
 	public class KeyInfo  {
 		String label;
 		int labelIconId;
 		String keylabel;
 		int scancode;
 		float xc,yc, width, height;
-    }
-	
+	}
+
 	public static class TriggerAction {
 		short pc_trigger;
 		public TriggerAction(short pc_trigger) {
@@ -36,20 +36,20 @@ public class ControllerInfo {
 		ControllerInfo controllerInfo;
 	}
 	public List<TriggerAction> triggers =  new ArrayList<TriggerAction>();
-	
+
 	public void addTrigger(short pc, ControllerInfo switchToController) {
 		TriggerActionSetController trigger = new TriggerActionSetController(pc, switchToController);
 		triggers.add(trigger);
 	}
 
-	
+
 	public void addKey(String label, String keylabel, float xc, float yc, float width, float height, int scancode) {
 		addKey(label, keylabel, xc, yc, width, height, scancode, 0);
 	}
 	public void addKey(String label, String keylabel, float xc, float yc, float width, float height, int scancode, int androidKeycode) {
 		addKey(label, keylabel, xc, yc, width, height, scancode, androidKeycode, 0);
 	}
-	public void addKey(String label, String keylabel, float xc, float yc, float width, float height, int scancode, int androidKeycode, int androidKeycode2) {	
+	public void addKey(String label, String keylabel, float xc, float yc, float width, float height, int scancode, int androidKeycode, int androidKeycode2) {
 		KeyInfo key = new KeyInfo();
 		key.label = label;
 		key.keylabel = keylabel;
@@ -67,5 +67,5 @@ public class ControllerInfo {
 		}
 	}
 
-	
+
 }

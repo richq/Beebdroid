@@ -13,12 +13,12 @@ import common.Packageable;
 
 public class InstalledDisks {
 	public static final int CURRENT_VERSION=1;
-	
+
 	private static List<DiskInfo> disks = new ArrayList<DiskInfo>();
 	private static Map<String, DiskInfo> map = new HashMap<String, DiskInfo>();
-	
+
 	public static void load(Context context) {
-		packageable.load(context, new File(context.getCacheDir(), "disks.dat"), CURRENT_VERSION);		
+		packageable.load(context, new File(context.getCacheDir(), "disks.dat"), CURRENT_VERSION);
 		for (DiskInfo disk : disks) {
 			map.put(disk.key, disk);
 		}
@@ -38,19 +38,19 @@ public class InstalledDisks {
 		packageable.save();
 		return diskInfo;
 	}
-	
+
 	static Packageable packageable = new Packageable() {
 		@Override
 		public void readFromPackage(PackageInputStream in) throws IOException {
 			disks = in.readPackageableList(DiskInfo.class);
 		}
-	
+
 		@Override
 		public void writeToPackage(PackageOutputStream out) throws IOException {
 			out.writePackageableList(disks);
 		}
 	};
-	
-	
-	
+
+
+
 }

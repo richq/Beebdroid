@@ -24,7 +24,7 @@ import android.util.Log;
 
 public class Network {
 
-	
+
 	//
 	// DownloadTaskBase
 	//
@@ -32,11 +32,11 @@ public class Network {
 		protected static final String TAG="DownloadTask";
 		protected String errorMessage;
 		protected int httpCode;
-		
+
 		// Functions to be implemented by derived classes
 		abstract protected HttpUriRequest getHttpRequest();
 		abstract protected void onError(String errorText);
-		
+
 		protected boolean processStatusLine(HttpResponse response) {
 			httpCode = response.getStatusLine().getStatusCode();
 			Log.d(TAG, "got HTTP " + httpCode);
@@ -51,9 +51,9 @@ public class Network {
 			}
 			return true;
 		}
-		
+
 	}
-	
+
 	//
 	// DownloadTextTask - a background task for downloading relatively small
 	//                    amounts of text.
@@ -61,12 +61,12 @@ public class Network {
 	abstract public static class DownloadTextTask extends DownloadTaskBase {
 
 		protected String responseETag = "";
-		
+
 		// Functions to be implemented by derived classes
 		abstract protected void onDownloadComplete(String str);
 
 		@Override
-		protected String doInBackground(String... params) {				
+		protected String doInBackground(String... params) {
 			HttpClient client = new DefaultHttpClient();
 			HttpUriRequest request = getHttpRequest();
 			Log.d(TAG, request.getRequestLine().toString());
@@ -88,14 +88,14 @@ public class Network {
 			}
 			catch (IOException e) {
 				errorMessage = "Error during download: " + e.getMessage();
-			}				
+			}
 			return null;
 		}
 
 		@Override protected void onPostExecute(String str) {
 			if (str == null) {
 				if (TextUtils.isEmpty(errorMessage)) {
-					errorMessage = "Unspecified error"; 
+					errorMessage = "Unspecified error";
 				}
 				Log.e(TAG, errorMessage);
 				onError(errorMessage);
@@ -104,17 +104,17 @@ public class Network {
 			onDownloadComplete(str);
 		}
 	}
-	
+
 
 
 	//
 	// DownloadJsonTask - helper for downloading JSON
 	//
 	abstract public static class DownloadJsonTask extends DownloadTextTask {
-		
+
 		// Functions to be implemented by derived classes
 		abstract protected void onDownloadJsonComplete(Object object) throws JSONException;
-		
+
 		// Parse the text response into JSON
 		@Override
 		protected final void onDownloadComplete(String str) {
@@ -147,7 +147,7 @@ public class Network {
 		protected long cbDownloaded = 0;
 		protected boolean append;
 		public String contentType;
-		
+
 		// Functions to be implemented by derived classes
 		abstract protected void onDownloadComplete();
 
@@ -156,7 +156,7 @@ public class Network {
 			this.localPath = localPath;
 			this.append = append;
 		}
-		
+
 		@Override
 		protected String doInBackground(String... params) {
 			HttpClient client = new DefaultHttpClient();
@@ -190,37 +190,37 @@ public class Network {
 					long cbThisDownloadSize  = entity.getContentLength();
 					cbTotalSize = cbDownloaded + cbThisDownloadSize;
 					Log.d(TAG, "cbTotalSize is " + cbTotalSize);
-			    	RandomAccessFile output = new RandomAccessFile(localPath, "rw");
-			    	if (cbDownloaded > 0) {
-			    		output.seek(cbDownloaded);
-			    	}
-				    int readBytes = 0;
-				    while ((readBytes = inputStream.read(sBuffer)) != -1) {
-				    	output.write(sBuffer, 0, readBytes);
-				    	cbDownloaded += readBytes;
-				    	publishProgress(cbDownloaded, cbTotalSize);
-				    	if (isCancelled()) {
-				    		break;
-				    	}
-				    }
-				    output.close();
-				    entity.consumeContent();
-				    return "OK"; // success
+					RandomAccessFile output = new RandomAccessFile(localPath, "rw");
+					if (cbDownloaded > 0) {
+						output.seek(cbDownloaded);
+					}
+					int readBytes = 0;
+					while ((readBytes = inputStream.read(sBuffer)) != -1) {
+						output.write(sBuffer, 0, readBytes);
+						cbDownloaded += readBytes;
+						publishProgress(cbDownloaded, cbTotalSize);
+						if (isCancelled()) {
+							break;
+						}
+					}
+					output.close();
+					entity.consumeContent();
+					return "OK"; // success
 				}
 			}
 			catch (IOException e2) {
 				errorMessage = "Exception in download: " + e2.getLocalizedMessage();
-			}				
+			}
 			return null;
 		}
-		
+
 		@Override protected void onPostExecute(String str) {
 			if (isCancelled()) {
 				return;
 			}
 			if (str == null) {
 				if (TextUtils.isEmpty(errorMessage)) {
-					errorMessage = "Unspecified error"; 
+					errorMessage = "Unspecified error";
 				}
 				Log.e(TAG, errorMessage);
 				onError(errorMessage);

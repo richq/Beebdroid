@@ -22,7 +22,7 @@ public class DPad {
 	Drawable arrowUp, arrowDown, arrowLeft, arrowRight;
 	Drawable joystick;
 	boolean joystickMode;
-	
+
 	int current;
 	Rect bounds = new Rect();
 	int midx, midy;
@@ -30,7 +30,7 @@ public class DPad {
 	public static final int FLAG_RIGHT = 2;
 	public static final int FLAG_UP = 4;
 	public static final int FLAG_DOWN = 8;
-	
+
 	public DPad(Context context) {
 		bkgnd = context.getResources().getDrawable(R.drawable.dpad0);
 		arrowUp = context.getResources().getDrawable(R.drawable.dpad_arrow_up);
@@ -43,9 +43,9 @@ public class DPad {
 	}
 
 	/*@Override
-	protected void onLayout (boolean changed, int left, int top, int right, int bottom) {
-		super.onLayout(changed, left, top, right, bottom);
-	}*/
+	  protected void onLayout (boolean changed, int left, int top, int right, int bottom) {
+	  super.onLayout(changed, left, top, right, bottom);
+	  }*/
 	public void onLayout(int left, int top, int right, int bottom) {
 		bounds.set(left, top, right, bottom);
 		bkgnd.setBounds(left, top, right, bottom);
@@ -59,8 +59,8 @@ public class DPad {
 		arrowRight.setBounds(right - (margin+arrowHeight), midy-arrowWidth, right-margin, midy+arrowWidth);
 		arrowDown.setBounds(midx - arrowWidth, bottom-(margin+arrowHeight), midx+arrowWidth, bottom-margin);
 	}
-	
-	
+
+
 	public void draw(Canvas canvas) {
 		bkgnd.draw(canvas);
 		if ((current & FLAG_UP) != 0) arrowUp.draw(canvas);
@@ -68,39 +68,39 @@ public class DPad {
 		if ((current & FLAG_LEFT) != 0) arrowLeft.draw(canvas);
 		if ((current & FLAG_RIGHT) != 0) arrowRight.draw(canvas);
 	}
-	
+
 	VelocityTracker velocityTracker;
-	
+
 	public boolean onTouchEventJoystick(MotionEvent event) {
 		int actionCode = event.getActionMasked(); // action & MotionEvent.ACTION_MASK;
 		int newFlags = 0;
 		switch (actionCode) {
-		case MotionEvent.ACTION_DOWN:
-			velocityTracker.clear();
-			velocityTracker.addMovement(event);
-			return true;
-		case MotionEvent.ACTION_MOVE:
-			velocityTracker.addMovement(event);
-			velocityTracker.computeCurrentVelocity(50);
-			int vx = (int)velocityTracker.getXVelocity()/20;
-			int vy = (int)velocityTracker.getYVelocity()/20;
-			//Log.d("Joystick", "Velocity: x=" + vx + " y=" + vy);
-			if (vx==0 && vy==0) { // no change of direction, do nothing
+			case MotionEvent.ACTION_DOWN:
+				velocityTracker.clear();
+				velocityTracker.addMovement(event);
 				return true;
-			}
-			if (vx<0) newFlags |= FLAG_LEFT;
-			if (vx>0) newFlags |= FLAG_RIGHT;
-			if (vy<0) newFlags |= FLAG_UP;
-			if (vy>0) newFlags |= FLAG_DOWN;
-			break;
-		case MotionEvent.ACTION_UP:
-			velocityTracker.clear();
-			break;
+			case MotionEvent.ACTION_MOVE:
+				velocityTracker.addMovement(event);
+				velocityTracker.computeCurrentVelocity(50);
+				int vx = (int)velocityTracker.getXVelocity()/20;
+				int vy = (int)velocityTracker.getYVelocity()/20;
+				//Log.d("Joystick", "Velocity: x=" + vx + " y=" + vy);
+				if (vx==0 && vy==0) { // no change of direction, do nothing
+					return true;
+				}
+				if (vx<0) newFlags |= FLAG_LEFT;
+				if (vx>0) newFlags |= FLAG_RIGHT;
+				if (vy<0) newFlags |= FLAG_UP;
+				if (vy>0) newFlags |= FLAG_DOWN;
+				break;
+			case MotionEvent.ACTION_UP:
+				velocityTracker.clear();
+				break;
 		}
 		processNewMovement(newFlags);
 		return true;
 	}
-	
+
 	public boolean onTouchEvent(MotionEvent event) {
 		float x = event.getX();
 		float y = event.getY();
@@ -113,22 +113,22 @@ public class DPad {
 		int actionCode = event.getActionMasked(); // action & MotionEvent.ACTION_MASK;
 		int newFlags = 0;
 		switch (actionCode) {
-		case MotionEvent.ACTION_DOWN:
-		case MotionEvent.ACTION_MOVE:
-			double da = 180+Math.toDegrees(Math.atan2(y-midy, x-midx));
-			da = (da-22.5)/45;
-			if (da<0) da+=360/45;
-			int a = (int)da;
-			if (a==0 || a==1 || a==2) newFlags |=FLAG_UP;
-			if (a==2 || a==3 || a==4) newFlags |=FLAG_RIGHT;
-			if (a==4 || a==5 || a==6) newFlags |=FLAG_DOWN;
-			if (a==6 || a==7 || a==0) newFlags |=FLAG_LEFT;
-			//Log.d("DPad", "angle " + (int)a);
-			break;
-		case MotionEvent.ACTION_UP:
-			break;
-		default:
-			return false;
+			case MotionEvent.ACTION_DOWN:
+			case MotionEvent.ACTION_MOVE:
+				double da = 180+Math.toDegrees(Math.atan2(y-midy, x-midx));
+				da = (da-22.5)/45;
+				if (da<0) da+=360/45;
+				int a = (int)da;
+				if (a==0 || a==1 || a==2) newFlags |=FLAG_UP;
+				if (a==2 || a==3 || a==4) newFlags |=FLAG_RIGHT;
+				if (a==4 || a==5 || a==6) newFlags |=FLAG_DOWN;
+				if (a==6 || a==7 || a==0) newFlags |=FLAG_LEFT;
+				//Log.d("DPad", "angle " + (int)a);
+				break;
+			case MotionEvent.ACTION_UP:
+				break;
+			default:
+				return false;
 		}
 		processNewMovement(newFlags);
 		return true;
@@ -145,7 +145,7 @@ public class DPad {
 			}
 			current = newFlags;
 		}
-		
+
 	}
 
 }

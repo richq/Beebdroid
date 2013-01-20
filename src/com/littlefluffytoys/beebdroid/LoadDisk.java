@@ -38,85 +38,85 @@ import common.Utils;
 
 public class LoadDisk extends Activity implements OnTabChangeListener {
 	private static final String TAG="LoadDisk";
-	
+
 	private static final String SERVER_ROOT = "http://www.stairwaytohell.com/";
 	//private static final String SERVER_ROOT = "http://www.littlefluffytoys.com/beebdroid/";
 	private static final int ID_DELETE = 1;
 	public static final int ID_RESULT_LOADDISK = 101;
 	public static final int ID_RESULT_SAVE = 102;
 	public static final int ID_RESULT_RESTORE = 103;
-	
+
 	protected TabHost mTabHost;
 	protected ViewFlipper viewFlipper;
-	
+
 	/*
 	 * ACTIVITY MANAGEMENT (i.e. functions generally called by the OS)
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_loaddisk);
-        mTabHost = (TabHost) findViewById(android.R.id.tabhost);
-        mTabHost.setup();
-        mTabHost.setOnTabChangedListener(this);
-        setupTab("Installed", installedAdapter, R.layout.listview, onInstalledItemClickListener);
-        setupTab("Online", onlineAdapter, R.layout.listview_online, onOnlineItemClickListener);
-        setupTab("Saved", savedAdapter, R.layout.listview, onSaveItemClickListener);
-        int tab = getIntent().getIntExtra("startTab", 0);
-        mTabHost.setCurrentTab(tab);
-        if (SavedGameInfo.savedGames == null) {
-        	SavedGameInfo.init(this);
-        }
-     
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_loaddisk);
+		mTabHost = (TabHost) findViewById(android.R.id.tabhost);
+		mTabHost.setup();
+		mTabHost.setOnTabChangedListener(this);
+		setupTab("Installed", installedAdapter, R.layout.listview, onInstalledItemClickListener);
+		setupTab("Online", onlineAdapter, R.layout.listview_online, onOnlineItemClickListener);
+		setupTab("Saved", savedAdapter, R.layout.listview, onSaveItemClickListener);
+		int tab = getIntent().getIntExtra("startTab", 0);
+		mTabHost.setCurrentTab(tab);
+		if (SavedGameInfo.savedGames == null) {
+			SavedGameInfo.init(this);
+		}
+
 	}
 
-	
+
 	private void setupTab(final String tag, final BaseAdapter adapter, final int layoutId, final OnItemClickListener onItemClickListener) {
-	    View view = getLayoutInflater().inflate(R.layout.tabs_bg, null);
-	    TextView tv = (TextView) view.findViewById(R.id.tabsText);
-	    tv.setText(tag);
-        TabSpec spec = mTabHost.newTabSpec(tag);
-        spec.setIndicator(tag);
-        spec.setContent(new TabHost.TabContentFactory() {
-	        @Override
-	        public View createTabContent(String tag) {
-	        	View view = getLayoutInflater().inflate(layoutId, null);
-	        	ListView list = (ListView)view.findViewById(R.id.list);
-	        	list.setOnItemClickListener(onItemClickListener);
-	        	list.setAdapter(adapter);
-	        	View emptyView = view.findViewById(R.id.emptyView);
-	        	if (emptyView != null) {
-	        		list.setEmptyView(emptyView);
-	        	}
-	        	return view;
-	        }
-	    });
-	    mTabHost.addTab(spec);
+		View view = getLayoutInflater().inflate(R.layout.tabs_bg, null);
+		TextView tv = (TextView) view.findViewById(R.id.tabsText);
+		tv.setText(tag);
+		TabSpec spec = mTabHost.newTabSpec(tag);
+		spec.setIndicator(tag);
+		spec.setContent(new TabHost.TabContentFactory() {
+			@Override
+			public View createTabContent(String tag) {
+				View view = getLayoutInflater().inflate(layoutId, null);
+				ListView list = (ListView)view.findViewById(R.id.list);
+				list.setOnItemClickListener(onItemClickListener);
+				list.setAdapter(adapter);
+				View emptyView = view.findViewById(R.id.emptyView);
+				if (emptyView != null) {
+					list.setEmptyView(emptyView);
+				}
+				return view;
+			}
+		});
+		mTabHost.addTab(spec);
 	}
-	
+
 
 	public static DiskInfo selectedDisk;
-	
+
 	/*
 	 * INSTALLED DISKS ADAPTER
 	 */
 	BaseAdapter installedAdapter = new BaseAdapter() {
-		
+
 		@Override
 		public int getCount() {
 			return InstalledDisks.getCount();
 		}
-	
+
 		@Override
 		public Object getItem(int position) {
 			return null;
 		}
-	
+
 		@Override
 		public long getItemId(int position) {
 			return position;
 		}
-	
+
 		@Override
 		public View getView(int position, View view, ViewGroup parent) {
 			DiskInfo diskInfo = InstalledDisks.getByIndex(position);
@@ -126,10 +126,10 @@ public class LoadDisk extends Activity implements OnTabChangeListener {
 			view.setTag(diskInfo);
 			ImageCache.getImage(view, R.id.image, diskInfo.coverUrl);
 			Utils.setText(view, R.id.title, diskInfo.title);
-			Utils.setText(view, R.id.subtitle, diskInfo.publisher);			
+			Utils.setText(view, R.id.subtitle, diskInfo.publisher);
 			return view;
 		}
-		
+
 	};
 
 	/*
@@ -137,22 +137,22 @@ public class LoadDisk extends Activity implements OnTabChangeListener {
 	 */
 	List<DiskInfo> onlineDisks = new ArrayList<DiskInfo>();
 	BaseAdapter onlineAdapter = new BaseAdapter() {
-		
+
 		@Override
 		public int getCount() {
 			return onlineDisks.size();
 		}
-	
+
 		@Override
 		public Object getItem(int position) {
 			return null;
 		}
-	
+
 		@Override
 		public long getItemId(int position) {
 			return position;
 		}
-	
+
 		@Override
 		public View getView(int position, View view, ViewGroup parent) {
 			DiskInfo diskInfo = onlineDisks.get(position);
@@ -166,15 +166,15 @@ public class LoadDisk extends Activity implements OnTabChangeListener {
 			Utils.setVisibility(view, R.id.installed, (InstalledDisks.getByKey(diskInfo.key)==null)?View.GONE:View.VISIBLE);
 			return view;
 		}
-		
+
 	};
-	
-	
+
+
 	/*
 	 * SAVED GAMES ADAPTER
 	 */
 	BaseAdapter savedAdapter = new BaseAdapter() {
-		
+
 		@Override
 		public int getCount() {
 			return SavedGameInfo.savedGames.size() + 1;
@@ -183,12 +183,12 @@ public class LoadDisk extends Activity implements OnTabChangeListener {
 		public Object getItem(int position) {
 			return null;
 		}
-	
+
 		@Override
 		public long getItemId(int position) {
 			return position;
 		}
-	
+
 		@Override
 		public View getView(int position, View view, ViewGroup parent) {
 			if (position == 0) {
@@ -200,14 +200,14 @@ public class LoadDisk extends Activity implements OnTabChangeListener {
 				view = getLayoutInflater().inflate(R.layout.listitem_savedgame, null);
 			}
 			view.setTag(position);
-			
+
 			ImageView img = (ImageView)view.findViewById(R.id.image);
 			img.setBackgroundDrawable(new BitmapDrawable(info.thumbnail));
 			//img.setImageBitmap(info.thumbnail);
-			
+
 			Utils.setText(view, R.id.title, (info.diskInfo==null)? "No disk" : info.diskInfo.title);
 			Utils.setText(view, R.id.age, Utils.age(info.timestamp) + " ");
-	
+
 			// Expand load/save buttons area
 			View buttons = view.findViewById(R.id.buttons);
 			if (info.equals(SavedGameInfo.current)) {
@@ -217,33 +217,33 @@ public class LoadDisk extends Activity implements OnTabChangeListener {
 				buttons.findViewById(R.id.btnOverwrite).setTag(position);
 			}
 			else {
-				buttons.setVisibility(View.GONE);	
+				buttons.setVisibility(View.GONE);
 				view.setBackgroundDrawable(null);
 			}
 			return view;
 		}
-		
-	};
-	
 
-	
-	
+	};
+
+
+
+
 	@Override
-    public void onTabChanged(String tabId) {
+	public void onTabChanged(String tabId) {
 		if (tabId.equalsIgnoreCase("Online")) {
 			if (downloadTask == null) {
 				refreshOnlineList();
 			}
 		}
-    }
+	}
 
-	
+
 	OnItemClickListener onInstalledItemClickListener = new OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			setResult(ID_RESULT_LOADDISK);
 			selectedDisk = (DiskInfo)view.getTag();
-			finish();		
+			finish();
 		}
 	};
 	OnItemClickListener onOnlineItemClickListener = new OnItemClickListener() {
@@ -264,18 +264,18 @@ public class LoadDisk extends Activity implements OnTabChangeListener {
 				doSave(-1);
 				return;
 			}
-			doRestore(position - 1);		
+			doRestore(position - 1);
 		}
 	};
-	
+
 	private void startDownload(final DiskInfo onlineDiskInfo) {
 		final File tmpFile = new File(getFilesDir(), "tmp.bin");
-		Network.DownloadBinaryTask task = new Network.DownloadBinaryTask(tmpFile.getAbsolutePath(), false) {			
+		Network.DownloadBinaryTask task = new Network.DownloadBinaryTask(tmpFile.getAbsolutePath(), false) {
 			@Override
 			protected HttpUriRequest getHttpRequest() {
 				return new HttpGet(onlineDiskInfo.diskUrl);
 			}
-			
+
 			@Override
 			protected void onDownloadComplete() {
 				File targetFile = new File(getFilesDir(), onlineDiskInfo.key);
@@ -293,17 +293,17 @@ public class LoadDisk extends Activity implements OnTabChangeListener {
 				Toast.makeText(LoadDisk.this, "Installed OK!", Toast.LENGTH_SHORT).show();
 				setResult(ID_RESULT_LOADDISK);
 				selectedDisk = InstalledDisks.add(onlineDiskInfo);
-				finish();		
+				finish();
 			}
 			@Override
 			protected void onError(String errorText) {
 				Toast.makeText(LoadDisk.this, errorText, Toast.LENGTH_SHORT).show();
 			}
-			
+
 		};
 		task.execute();
 	}
-	
+
 	//
 	// Get the list of online disks
 	//
@@ -314,7 +314,7 @@ public class LoadDisk extends Activity implements OnTabChangeListener {
 			protected HttpUriRequest getHttpRequest() {
 				return new HttpGet(SERVER_ROOT + "beebdroid.json");
 			}
-			
+
 			@Override
 			protected void onDownloadJsonComplete(Object object) throws JSONException {
 				JSONArray a = (JSONArray)object;
@@ -338,22 +338,22 @@ public class LoadDisk extends Activity implements OnTabChangeListener {
 		};
 		downloadTask.execute();
 	}
-	
+
 	//
 	// Saved states
 	//
 	/*@Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-		menu.add(0, ID_DELETE, 0, "Delete");
-	}
-	@Override
-	public boolean onContextItemSelected (MenuItem item) {
-		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-		SavedGameInfo.delete(this, info.position-1);
-		adapter.notifyDataSetChanged();
-		return true;
-	}*/
-	
+	  public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+	  menu.add(0, ID_DELETE, 0, "Delete");
+	  }
+	  @Override
+	  public boolean onContextItemSelected (MenuItem item) {
+	  AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+	  SavedGameInfo.delete(this, info.position-1);
+	  adapter.notifyDataSetChanged();
+	  return true;
+	  }*/
+
 	public void onOverwriteClicked(View view) {
 		doSave((Integer)view.getTag());
 	}
@@ -371,5 +371,5 @@ public class LoadDisk extends Activity implements OnTabChangeListener {
 		data.putExtra("index", index);
 		setResult(ID_RESULT_RESTORE, data);
 		finish();
-	}	
+	}
 }

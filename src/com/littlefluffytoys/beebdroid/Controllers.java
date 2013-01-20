@@ -7,7 +7,7 @@ import android.view.KeyEvent;
 
 public class Controllers {
 
-	
+
 	static ControllerInfo controller_ZX_4way = new ControllerInfo();
 	static ControllerInfo controller_ZX_5way = new ControllerInfo();
 	static ControllerInfo controller_RocketRaid_Game = new ControllerInfo();
@@ -46,15 +46,15 @@ public class Controllers {
 		controller_Qman_Game.addKey("Down-Left", "Z",   0, -1, 1f, 1f, BeebKeys.BBCKEY_Z, KeyEvent.KEYCODE_DPAD_DOWN);
 		controller_Qman_Game.addKey("Up-Right",    ":",  -1,  0, 1f, 1f, BeebKeys.BBCKEY_COLON, KeyEvent.KEYCODE_DPAD_RIGHT);
 		controller_Qman_Game.addKey("Down-Right",  "/",  -1,  1, 1f, 1f, BeebKeys.BBCKEY_SLASH, KeyEvent.KEYCODE_DPAD_CENTER);
-		
+
 		// Arcadians has 2 controllers and uses PC triggers to switch between them
-//		controller_Arcadians_Menu.addKey("1","1",    0f,  0, 1.5f, 1.5f,  BeebKeys.BBCKEY_1);
-//		controller_Arcadians_Menu.addKey("2","2",    1.5f,  0, 1.5f, 1.5f,  BeebKeys.BBCKEY_2);
-//		controller_Arcadians_Menu.addTrigger((short) 0x3203, controller_Arcadians_Game);
+		//		controller_Arcadians_Menu.addKey("1","1",    0f,  0, 1.5f, 1.5f,  BeebKeys.BBCKEY_1);
+		//		controller_Arcadians_Menu.addKey("2","2",    1.5f,  0, 1.5f, 1.5f,  BeebKeys.BBCKEY_2);
+		//		controller_Arcadians_Menu.addTrigger((short) 0x3203, controller_Arcadians_Game);
 		controller_Arcadians_Menu.addKey("Left","Caps",    0f,  0, 1.25f, 1.25f,  BeebKeys.BBCKEY_CAPS, KeyEvent.KEYCODE_DPAD_LEFT, KeyEvent.KEYCODE_BUTTON_X);
 		controller_Arcadians_Menu.addKey("Right","Ctrl",   1.25f,  0, 1.25f, 1.25f,  BeebKeys.BBCKEY_CTRL, KeyEvent.KEYCODE_DPAD_RIGHT, KeyEvent.KEYCODE_BACK);
 		controller_Arcadians_Menu.addKey("Fire","Return",    -1f,  0,   1f,   1.25f,  BeebKeys.BBCKEY_ENTER, KeyEvent.KEYCODE_BUTTON_L1, KeyEvent.KEYCODE_BUTTON_R1);
-//		controller_Arcadians_Game.addTrigger((short) 0x4d95, controller_Arcadians_Menu);
+		//		controller_Arcadians_Game.addTrigger((short) 0x4d95, controller_Arcadians_Menu);
 
 		controller_CastleQuest_Game.addKey("Left", "Z",   0,  -1, 1f, 1f, BeebKeys.BBCKEY_Z, KeyEvent.KEYCODE_DPAD_LEFT);
 		controller_CastleQuest_Game.addKey("Right", "X",   1,  -1, 1f, 1f, BeebKeys.BBCKEY_X, KeyEvent.KEYCODE_DPAD_RIGHT);
@@ -118,33 +118,33 @@ public class Controllers {
 		controller_Zalaga_Game.addKey("Right","Ctrl",   1.25f,  0, 1.25f, 1.25f,  BeebKeys.BBCKEY_CTRL, KeyEvent.KEYCODE_DPAD_RIGHT, KeyEvent.KEYCODE_BACK);
 		controller_Zalaga_Game.addKey("Fire","Return",    -1f,  0,   1f,   1.25f,  BeebKeys.BBCKEY_ENTER, KeyEvent.KEYCODE_BUTTON_L1, KeyEvent.KEYCODE_BUTTON_R1);
 	}
-	
+
 	//
 	// This section maps disk keys to built-in ControllerInfos
 	//
 	static Map<String, ControllerInfo> controllersForKnownDisks = new HashMap<String, ControllerInfo>();
 	static {
-		controllersForKnownDisks.put("arcadians", 			controller_Arcadians_Menu);
-		controllersForKnownDisks.put("castle_quest", 		controller_CastleQuest_Game);
-		//controllersForKnownDisks.put("chuckie_egg", 		controller_ChuckieEgg_Game);
-		controllersForKnownDisks.put("chuckie_egg", 		controller_ChuckieEgg_Game_Alt);
-		controllersForKnownDisks.put("dare_devil_dennis", 	controller_DareDevilDennis_Game);
-		controllersForKnownDisks.put("firetrack",			controller_ZX_4way);		
-		controllersForKnownDisks.put("gimpo", 				controller_ZX_4way);
-		controllersForKnownDisks.put("hyper_viper", 		controller_ZX_4way);
-		controllersForKnownDisks.put("elite", 				controller_Elite_Game);
-		controllersForKnownDisks.put("imogen", 				controller_Imogen_Game);
-		controllersForKnownDisks.put("qman", 				controller_Qman_Game);
-		controllersForKnownDisks.put("planetoid", 			controller_Planetoid_Game);
-		controllersForKnownDisks.put("repton1", 			controller_ZX_4way);
-		controllersForKnownDisks.put("repton2", 			controller_ZX_4way);
-		controllersForKnownDisks.put("repton3", 			controller_ZX_4way);
-		controllersForKnownDisks.put("repton_infinity", 	controller_ZX_4way);
-		controllersForKnownDisks.put("repton_thru_time", 	controller_ZX_4way);
-		controllersForKnownDisks.put("ripton", 				controller_ZX_4way);
-		controllersForKnownDisks.put("rocket_raid", 		controller_RocketRaid_Game);
-		controllersForKnownDisks.put("snapper", 			controller_ZX_4way);
-		controllersForKnownDisks.put("thrust", 				controller_Thrust_Game);
-		controllersForKnownDisks.put("zalaga", 				controller_Zalaga_Game);
+		controllersForKnownDisks.put("arcadians",	controller_Arcadians_Menu);
+		controllersForKnownDisks.put("castle_quest",	controller_CastleQuest_Game);
+		//controllersForKnownDisks.put("chuckie_egg",	controller_ChuckieEgg_Game);
+		controllersForKnownDisks.put("chuckie_egg",	controller_ChuckieEgg_Game_Alt);
+		controllersForKnownDisks.put("dare_devil_dennis", controller_DareDevilDennis_Game);
+		controllersForKnownDisks.put("firetrack",	controller_ZX_4way);
+		controllersForKnownDisks.put("gimpo",		controller_ZX_4way);
+		controllersForKnownDisks.put("hyper_viper",	controller_ZX_4way);
+		controllersForKnownDisks.put("elite",		controller_Elite_Game);
+		controllersForKnownDisks.put("imogen",		controller_Imogen_Game);
+		controllersForKnownDisks.put("qman",		controller_Qman_Game);
+		controllersForKnownDisks.put("planetoid",	controller_Planetoid_Game);
+		controllersForKnownDisks.put("repton1",		controller_ZX_4way);
+		controllersForKnownDisks.put("repton2",		controller_ZX_4way);
+		controllersForKnownDisks.put("repton3",		controller_ZX_4way);
+		controllersForKnownDisks.put("repton_infinity",	controller_ZX_4way);
+		controllersForKnownDisks.put("repton_thru_time",controller_ZX_4way);
+		controllersForKnownDisks.put("ripton",		controller_ZX_4way);
+		controllersForKnownDisks.put("rocket_raid",	controller_RocketRaid_Game);
+		controllersForKnownDisks.put("snapper",		controller_ZX_4way);
+		controllersForKnownDisks.put("thrust",		controller_Thrust_Game);
+		controllersForKnownDisks.put("zalaga",		controller_Zalaga_Game);
 	}
 }

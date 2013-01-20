@@ -12,20 +12,20 @@ import android.widget.CheckBox;
 public class AboutActivity extends Activity {
 	private static final String TAG="AboutActivity";
 	CheckBox box;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "onCreate");
-		
+
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.activity_about);		
+		setContentView(R.layout.activity_about);
 	}
 	@Override
 	public void onStart() {
 		super.onStart();
 		final int aboutBoxStatus = UserPrefs.getAboutScreenCheckbox(this);
-		
+
 		if (aboutBoxStatus == UserPrefs.ABOUTSCREEN_FIRST_EVER) {
 			// don't show the "show next time" checkbox on the splashscreen the very first time ever that we show it;
 			// instead, remember that next time we will show the checkbox
@@ -37,7 +37,7 @@ public class AboutActivity extends Activity {
 			box.setVisibility(View.VISIBLE);
 			box.setChecked(aboutBoxStatus == UserPrefs.ABOUTSCREEN_SHOW);
 		}
-		
+
 		Button btnOK = (Button)findViewById(R.id.button_ok);
 		btnOK.setOnClickListener(new OnClickListener() {
 			@Override
@@ -45,8 +45,8 @@ public class AboutActivity extends Activity {
 				if (box != null) {
 					UserPrefs.setAboutScreenCheckbox(v.getContext(), box.isChecked() ? UserPrefs.ABOUTSCREEN_SHOW : UserPrefs.ABOUTSCREEN_HIDE);
 				}
-				AboutActivity.this.finish();				
-			}			
+				AboutActivity.this.finish();
+			}
 		});
 	}
 }
