@@ -78,6 +78,7 @@ public class LoadDisk extends Activity implements OnTabChangeListener {
         TabSpec spec = mTabHost.newTabSpec(tag);
         spec.setIndicator(tag);
         spec.setContent(new TabHost.TabContentFactory() {
+	        @Override
 	        public View createTabContent(String tag) {
 	        	View view = getLayoutInflater().inflate(layoutId, null);
 	        	ListView list = (ListView)view.findViewById(R.id.list);

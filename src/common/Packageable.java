@@ -128,7 +128,7 @@ public abstract class Packageable {
 	    	int i = input.readByte();
 	        if (i > 0) {
 				try {
-					T item = (T) clazz.newInstance();
+					T item = clazz.newInstance();
 		            item.readFromPackage(this);
 		            return item;
 				} catch (InstantiationException e) {

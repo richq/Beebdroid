@@ -49,7 +49,7 @@ public class UserPrefs extends PreferenceActivity {
     }
 	static float safeGetPrefsFloat(SharedPreferences prefs, String key, float defaultVal) {
 		int i = safeGetPrefsInt(prefs, key, (int)(100 * defaultVal));
-		return ((float)i)/100f;
+		return (i)/100f;
 	}
 
 	static void refresh(Context context) {
