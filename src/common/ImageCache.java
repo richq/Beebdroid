@@ -27,7 +27,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.net.http.AndroidHttpClient;
 import android.os.Handler;
 import android.util.Log;

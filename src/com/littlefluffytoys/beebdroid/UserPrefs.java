@@ -4,8 +4,6 @@
  */
 package com.littlefluffytoys.beebdroid;
 
-import java.util.Locale;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceActivity;

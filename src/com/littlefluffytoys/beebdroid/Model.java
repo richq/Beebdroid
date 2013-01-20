@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 
 import android.content.Context;
-import android.util.Log;
 
 public class Model {
 

@@ -7,9 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import common.Packageable;
-
 import android.content.Context;
+
+import common.Packageable;
 
 public class InstalledDisks {
 	public static final int CURRENT_VERSION=1;

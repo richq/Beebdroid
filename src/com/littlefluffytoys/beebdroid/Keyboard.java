@@ -2,8 +2,6 @@ package com.littlefluffytoys.beebdroid;
 
 import java.util.ArrayList;
 
-import com.littlefluffytoys.beebdroid.TouchpadsView.Key;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.RectF;
