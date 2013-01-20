@@ -1,16 +1,16 @@
 package com.littlefluffytoys.beebdroid;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import android.util.SparseArray;
 
 
 public class ControllerInfo {
 
 	public String name;
 	public ArrayList<KeyInfo> keyinfos = new ArrayList<KeyInfo>();
-	public Map<Integer, KeyInfo> keyinfosMappedByAndroidKeycode = new HashMap<Integer, KeyInfo>();
+	public SparseArray<KeyInfo> keyinfosMappedByAndroidKeycode = new SparseArray<KeyInfo>();
 	public boolean useDPad;
 	public int androidKeycode;
 	
