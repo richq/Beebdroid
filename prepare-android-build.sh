@@ -23,6 +23,6 @@ if test x"$NDK" = x ; then
     NDK=$(ls -1d $(dirname $SDK)/android-ndk-* | tail -1)
 fi
 
-$SDK/tools/android update project -n BeebDroid -p . --target android-17
+$SDK/tools/android update project -n BeebDroid -p . --target android-21
 
 echo "ndk.dir=$NDK" >> local.properties

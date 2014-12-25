@@ -56,6 +56,7 @@ public class Beebdroid extends Activity
 {
 	private static final String TAG="Beebdroid";
 	public static boolean use25fps = false;
+	private enum KeyboardState {KEYBOARD, CONTROLLER, NONE};
 
 	Model model;
 	DiskInfo diskInfo;
@@ -71,7 +72,7 @@ public class Beebdroid extends Activity
 	KeyCharacterMap map  = KeyCharacterMap.load(0);
 	int fps, skipped;
 	TextView tvFps;
-	boolean keyboardShowing = true;
+	private KeyboardState keyboardShowing = KeyboardState.KEYBOARD;
 	ControllerInfo currentController;
 	boolean isXperiaPlay;
 
@@ -113,10 +114,13 @@ public class Beebdroid extends Activity
 
 			// Handle trigger events
 			if (controller.controllerInfo != null) {
-				if (trigger != last_trigger && controller.controllerInfo.triggers != null) {
+				final List<TriggerAction> triggers = controller.controllerInfo.triggers;
+				if (trigger != last_trigger && triggers != null) {
 					Log.d("Trigger!", "PC hit trigger " + trigger);
 					last_trigger = trigger;
-					onTriggerFired(controller.controllerInfo.triggers.get(trigger-1));
+					if (triggers.size() >= trigger) {
+						onTriggerFired(controller.controllerInfo.triggers.get(trigger-1));
+					}
 				}
 			}
 
@@ -161,7 +165,7 @@ public class Beebdroid extends Activity
 				bbcBreak(0);
 				diskInfo = null;
 				SavedGameInfo.current = null;
-				showKeyboard(true);
+				showKeyboard(KeyboardState.KEYBOARD);
 				return true;
 			}
 		}
@@ -297,7 +301,7 @@ public class Beebdroid extends Activity
 			btnInput.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					showKeyboard(!keyboardShowing);
+					toggleKeyboard();
 				}
 			});
 		}
@@ -320,6 +324,22 @@ public class Beebdroid extends Activity
 		});
 
 		UserPrefs.setGrandfatheredIn(this, true);
+	}
+
+	private void toggleKeyboard() {
+		switch (keyboardShowing) {
+			case KEYBOARD:
+				showKeyboard(KeyboardState.CONTROLLER);
+				break;
+			case CONTROLLER:
+				showKeyboard(KeyboardState.NONE);
+				break;
+			case NONE:
+			default:
+				showKeyboard(KeyboardState.KEYBOARD);
+				break;
+		}
+		hintActioned("hint_switch_keyboards");
 	}
 
 	private void processDiskViaIntent() {
@@ -488,7 +508,7 @@ public class Beebdroid extends Activity
 		setController(controllerInfo);
 
 		// Show the controller overlay rather than the keyboard
-		showKeyboard(false);
+		showKeyboard(KeyboardState.KEYBOARD);
 
 	}
 
@@ -498,14 +518,14 @@ public class Beebdroid extends Activity
 		setTriggers(controllerInfo);
 	}
 
-	public void showKeyboard(boolean show) {
-		Utils.setVisible(this, R.id.keyboard, show);
-		Utils.setVisible(this, R.id.controller, !show);
+	public void showKeyboard(KeyboardState keyboardState) {
+		Utils.setVisible(this, R.id.keyboard, keyboardState == KeyboardState.KEYBOARD);
+		Utils.setVisible(this, R.id.controller, keyboardState == KeyboardState.CONTROLLER);
 		final ImageView btnInput = (ImageView)findViewById(R.id.btnInput);
 		if (btnInput != null) {
-			btnInput.setImageResource(show?(isXperiaPlay? R.drawable.keyboard_cancel : R.drawable.controller) : R.drawable.keyboard);
+			btnInput.setImageResource(keyboardState == KeyboardState.KEYBOARD?(isXperiaPlay? R.drawable.keyboard_cancel : R.drawable.controller) : R.drawable.keyboard);
 		}
-		keyboardShowing = show;
+		keyboardShowing = keyboardState;
 	}
 	boolean shiftDown;
 
@@ -777,17 +797,16 @@ public class Beebdroid extends Activity
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, ID_SWITCHKEYBOARD, 0, "Switch keyboard");
-		menu.add(0, ID_LOADDISK, 1, "Load Disk");
-		menu.add(0, ID_ABOUT, 2, "About");
+		menu.add(0, ID_SWITCHKEYBOARD, 0, getString(R.string.button_switch_keyboard));
+		menu.add(0, ID_LOADDISK, 1, getString(R.string.button_load_disk));
+		menu.add(0, ID_ABOUT, 2, getString(R.string.button_about));
 		return true;
 	}
 	@Override
 	public boolean onOptionsItemSelected (MenuItem item) {
 		switch (item.getItemId()) {
 			case ID_SWITCHKEYBOARD:
-				showKeyboard(!keyboardShowing);
-				hintActioned("hint_switch_keyboards");
+				toggleKeyboard();
 				return true;
 			case ID_LOADDISK:
 				startDisksActivity(0);
